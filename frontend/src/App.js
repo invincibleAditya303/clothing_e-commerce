@@ -61,7 +61,7 @@ class App extends Component {
         localStorage.removeItem('cart')
       })
     } else {
-      const apiUrl = 'http://localhost:5000/api/cart/clear'
+      const apiUrl = `${process.env.REACT_APP_API_URL}/api/cart/clear`
       const options = {
         headers: {
           Authorization: `Bearee ${jwtToken}`
@@ -91,7 +91,7 @@ class App extends Component {
     }
   )
     } else {
-      const apiUrl = 'http://localhost:5000/api/cart/remove'
+      const apiUrl = `${process.env.REACT_APP_API_URL}/api/cart/remove`
       const options = {
         headers: {
           Authorization: `Bearer ${jwtToken}`
@@ -131,7 +131,7 @@ class App extends Component {
     })
       
     } else {
-      const apiUrl = fetch('http://localhost:5000/api/cart/add')
+      const apiUrl = fetch(`${process.env.REACT_APP_API_URL}/api/cart/add`)
       const options = {
         headers: {
           Authorization: `Bearer ${jwtToken}`

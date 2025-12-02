@@ -126,7 +126,7 @@ class AllProductsSection extends Component {
     let activeCategory = ''
     if (activeSizeId !== '') activeSize = sizesList.filter(size => size.sizeId === activeSizeId)[0].size
     if (activeCategoryId !== '') activeCategory = categoryOptions.filter(category => category.categoryId === activeCategoryId)[0].name
-    const apiUrl = `http://localhost:5000/api/products?sort_by=${activeOptionId}&category=${activeCategory}&search=${searchInput}&size=${activeSize}`
+    const apiUrl = `${process.env.REACT_APP_API_URL}/api/products?sort_by=${activeOptionId}&category=${activeCategory}&search=${searchInput}&size=${activeSize}`
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,

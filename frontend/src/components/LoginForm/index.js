@@ -38,7 +38,7 @@ class LoginForm extends Component {
     const {email, password, } = this.state
     const guestCart = localStorage.getItem('cart')
     const userDetails = {email, password, guestCart}
-    const url = 'http://localhost:5000/api/auth/login'
+    const url = `${process.env.REACT_APP_API_URL}/login`
     const options = {
       method: 'POST',
       body: JSON.stringify(userDetails),
