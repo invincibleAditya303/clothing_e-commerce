@@ -1,0 +1,108 @@
+.cart-summary-container {
+  width: 30%;
+  align-self: flex-end;
+}
+
+.order-heading {
+  color: #616e7c;
+  font-size: 22px;
+  font-family: 'Roboto';
+  font-weight: bold;
+}
+
+.order-amount {
+  color: #171f46;
+  font-size: 28px;
+  font-family: 'Roboto';
+  font-weight: bold;
+}
+
+.order-quantity {
+  color: #616e7c;
+  font-size: 16px;
+  font-family: 'Roboto';
+}
+
+.checkout-button {
+  height: 36px;
+  width: 100%;
+  background-color: #0b69ff;
+  color: #ffffff;
+  font-size: 14px;
+  font-family: 'Roboto';
+  border-radius: 6px;
+  border-width: 0px;
+  cursor: pointer;
+  outline: none;
+}
+
+.confirm-order-container {
+  height: 60vh;
+  width: 60vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000000;
+  border-radius: 10px;
+}
+
+.payment-container {
+  height: 5vh;
+  width: 40vw;
+  background-color: #eef1e9;
+  border-radius: 5px;
+  margin-bottom: 3px;
+}
+
+.order-summary-container {
+  height: 10vh;
+  width: 40vw;
+  margin-bottom: 5px;
+}
+
+.confirm-order-text {
+  color: #ffffff;
+  font-size: 22px;
+  font-family: 'Roboto';
+}
+
+.order-highlight {
+  color: #b3052a;
+}
+
+.confirm-button {
+  height: 36px;
+  width: 130px;
+  background-color: #96b9f1;
+  color: #ffffff;
+  font-size: 16px;
+  font-family: 'Roboto';
+  border-radius: 3px;
+  border-width: 0px;
+  cursor: pointer;
+  outline: none;
+}
+
+.close-button {
+  background-color: transparent;
+  border-width: 0px;
+  align-self: flex-end;
+  cursor: pointer;
+  outline: none;
+}
+
+.close-icon {
+  color: #ffffff;
+  height: 3vh;
+  width: 2vw;
+}
+
+.highlight {
+  background-color: #02307a;
+}
+
+.confirm-text {
+  color: #6adf47;
+  font-size: 18px;
+  font-family: 'Roboto';
+}

@@ -1,0 +1,4 @@
+GET http://localhost:5000/api/products?category=Hoodie&size=L&minPrice=20&maxPrice=1300&page=1&limit=10&search=
+###
+
+GET http://localhost:5000/api/products/692c0d8e6a9fb0fa764ba8b9
