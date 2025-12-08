@@ -2,18 +2,21 @@ const express = require('express')
 const router = express.Router()
 
 const cartController = require('../controllers/cartController')
-const authMiddleware = require('../middleware/authMiddleware')
+const authOptional = require('../middleware/authOptional')
 
 // Get cart items
-router.get('/', authMiddleware, cartController.getCart)
+router.get('/', authOptional, cartController.getCart)
 
 // Add to cart
-router.post('/add', authMiddleware, cartController.addToCart)
+router.post('/add', authOptional, cartController.addToCart)
+
+// Decrease qty of Item
+router.put('/items', authOptional, cartController.decreaseItem)
 
 //Remove from cart
-router.post('/remove', authMiddleware, cartController.removeFromCart)
+router.post('/remove', authOptional, cartController.removeFromCart)
 
 //Clear cart
-router.delete('/clear', authMiddleware, cartController.clearCart)
+router.delete('/clear', authOptional, cartController.clearCart)
 
 module.exports = router

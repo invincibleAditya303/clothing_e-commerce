@@ -3,7 +3,6 @@ const Cart = require('../models/Cart')
 const express = require('express')
 const app = express()
 app.use(express.json())
-express
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -50,7 +49,6 @@ exports.login = async (request, response) => {
         const {email, password, guestCart} = request.body
 
         const user = await User.findOne({email})
-        console.log(user)
 
         if (!user) {
             return response.status(401).json('Invalid User')
@@ -62,7 +60,7 @@ exports.login = async (request, response) => {
             return response.status(401).json('Invalid password')
         }
 
-        const userCart = await Cart.findOne({ userId: user._id })
+        const userCart = await Cart.findOne({ userId: user.id })
 
         let mergedCartItems = []
 
@@ -73,15 +71,16 @@ exports.login = async (request, response) => {
         const guestItems = (guestCart && Array.isArray(guestCart.items)) ? guestCart.items : []
         guestItems.forEach(gItem => {
             const existing = mergedCartItems.find(
-                uItem => uItem.productId === gItem.productId
+                uItem => uItem.id === gItem.id
             )
             if (existing) {
                 existing.quantity += gItem.quantity
             } else {
-            mergedCartItems.push({ productId: gItem.productId, quantity: gItem.quantity })
+            mergedCartItems.push({ id: gItem.id, quantity: gItem.quantity })
+            console.log(mergedCartItems)
             }
         })
-        const token = generateToken()
+        const token = generateToken(user)
         response.status(200).json(token)
     } catch (error) {
         console.error('Login error', error)

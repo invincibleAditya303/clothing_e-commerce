@@ -21,7 +21,8 @@ class ProductItemDetails extends Component {
   state = {
     productData: {},
     apiStatus: apiStatusConstants.initial,
-    quantity: 1,
+    qty: 1,
+    size: 'S'
   }
 
   componentDidMount() {
@@ -31,8 +32,8 @@ class ProductItemDetails extends Component {
   getFormattedData = data => ({
     name: data.name,
     description: data.description,
-    id: data._id,
-    imageUrl: data.image,
+    _id: data._id,
+    image: data.image,
     price: data.price,
     sizes: data.sizes,
     stock: data.stock,
@@ -94,50 +95,57 @@ class ProductItemDetails extends Component {
   )
 
   onDecrementQuantity = () => {
-    const {quantity} = this.state
-    if (quantity > 1) {
-      this.setState(prevState => ({quantity: prevState.quantity - 1}))
+    const {qty} = this.state
+    if (qty > 1) {
+      this.setState(prevState => ({qty: prevState.qty - 1}))
     }
   }
 
   onIncrementQuantity = () => {
-    this.setState(prevState => ({quantity: prevState.quantity + 1}))
+    this.setState(prevState => ({quantity: prevState.qty + 1}))
   }
+
+  onClickSize = selectedSize => {this.setState({size: selectedSize})}
 
   renderProductDetailsView = () => (
     <CartContext.Consumer>
       {value => {
-        const {productData, quantity} = this.state
+        const {productData, qty, size} = this.state
         const {
           name,
           description,
-          imageUrl,
+          image,
           price,
           sizes,
           stock,
         } = productData
         const {addCartItem} = value
         const onClickAddToCart = () => {
-          addCartItem({...productData, quantity})
+          addCartItem({...productData, qty, size})
         }
+
+        console.log(productData)
+        const activeSize = sizes.map(eachSize => eachSize === size ? 'active-size' : '')
 
         return (
           <div className="product-details-success-view">
             <div className="product-details-container">
-              <img src={imageUrl} alt="product" className="product-image" />
+              <img src={image} alt="product" className="product-image" />
               <div className="product">
                 <h1 className="product-name">{name}</h1>
                 <p className="price-details">Rs {price}/-</p>
                 <div className="size-and-stock-count">
                   <div className="size-container">
-                    <p className="size">{sizes.map(eachSize => <span>{eachSize}</span>)}</p>
+                    {sizes.map(eachSize => 
+                      <button className={`size ${activeSize}`} type='button' onClick={() => this.onClickSize(eachSize)}>{eachSize}</button>
+                    )}
                   </div>
                   <p className="stock-count">Stock: {stock}</p>
                 </div>
                 <p className="product-description">{description}</p>
                 <div className="label-value-container">
                   <p className="label">Available:</p>
-                  {stock > 0 && <p className="value">Available</p>}
+                  {stock > 0 && <p className="value">In Stock</p>}
                 </div>
         
                 <hr className="horizontal-line" />
@@ -146,16 +154,14 @@ class ProductItemDetails extends Component {
                     type="button"
                     className="quantity-controller-button"
                     onClick={this.onDecrementQuantity}
-                    data-testid="minus"
                   >
                     <BsDashSquare className="quantity-controller-icon" />
                   </button>
-                  <p className="quantity">{quantity}</p>
+                  <p className="quantity">{qty}</p>
                   <button
                     type="button"
                     className="quantity-controller-button"
                     onClick={this.onIncrementQuantity}
-                    data-testid="plus"
                   >
                     <BsPlusSquare className="quantity-controller-icon" />
                   </button>

@@ -7,9 +7,10 @@ import CartContext from '../../context/CartContext'
 
 import './index.css'
 
-const Header = props => {
+const Header = () => {
   const onClickLogout = () => {
     Cookies.remove('userDetails')
+    window.location.reload()
   }
 
   const jwtToken = Cookies.get('userDetails')

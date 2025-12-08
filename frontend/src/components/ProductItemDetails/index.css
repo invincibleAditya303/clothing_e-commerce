@@ -81,13 +81,33 @@
 .size-and-stock-count {
   display: flex;
   align-items: center;
+  justify-content: space-between
+}
+
+.size-container {
+  display: flex;
 }
 
 .stock-count {
-  color: #12022f;
+  color: #171f46;
+  font-family: 'Roboto';
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.size {
+  margin-right: 20px;
+  font-size: 18px;
   font-family: 'Open Sans';
-  font-size: 14px;
-  margin-left: 12px;
+  border-width: 0px;
+  background-color: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.active-size {
+  border: 2px #2e6b22ff solid;
+  padding: 1px;
 }
 
 .product-description {

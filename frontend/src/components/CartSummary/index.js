@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie'
+
 import Popup from 'reactjs-popup'
 
 import {MdClose} from 'react-icons/md'
@@ -16,9 +18,19 @@ const CartSummary = () => (
         onClickOrderButton,
       } = value
 
-      const orderAmount = cartList.map(
-        eachProduct => eachProduct.price * eachProduct.quantity,
-      )
+      const jwtToken = Cookies.get('userDetailss')
+
+      let orderAmount
+
+      if (jwtToken) {
+         orderAmount = cartList.map(
+        eachProduct => eachProduct.product.price * eachProduct.qty,
+        )
+      } else {
+        orderAmount = cartList.map(
+          eachProduct => eachProduct.price * eachProduct.qty
+        )
+      }
 
       console.log(orderAmount)
 

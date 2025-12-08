@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
 import {AiFillCloseCircle} from 'react-icons/ai'
 
@@ -13,22 +14,36 @@ const CartItem = props => (
         incrementCartItemQuantity,
         decrementCartItemQuantity,
       } = value
+      const jwtToken = Cookies.get('userDetails')
+
       const {cartItemDetails} = props
-      const {id, name, stock, quantity, price, imageUrl} = cartItemDetails
-      const onRemoveCartItem = () => {
-        removeCartItem(id)
+
+      let product = {}
+      let _id, name, price, image, size, qty
+
+      if (jwtToken) {
+        ({product, size, qty} = cartItemDetails ?? {});
+        ({_id, name, price, image} = product ?? {});
+      } else {
+        ({_id, name, price, image, size, qty} = cartItemDetails ?? {});
       }
 
-      const onIncrementItemQuantity = () => incrementCartItemQuantity(id)
-      const onDecrementItemQuantity = () => decrementCartItemQuantity(id)
+      console.log(_id)
+
+      const onRemoveCartItem = () => {
+        removeCartItem(_id)
+      }
+
+      const onIncrementItemQuantity = () => incrementCartItemQuantity(cartItemDetails)
+      const onDecrementItemQuantity = () => decrementCartItemQuantity(cartItemDetails)
 
       return (
         <li className="cart-item">
-          <img className="cart-product-image" src={imageUrl} alt={name} />
+          <img className="cart-product-image" src={image} alt={name} />
           <div className="cart-item-details-container">
             <div className="cart-product-title-brand-container">
               <p className="cart-product-title">{name}</p>
-              <p className="cart-product-brand">by {stock}</p>
+              <p className="cart-product-brand">size: {size}</p>
             </div>
             <div className="cart-quantity-container">
               <button
@@ -39,7 +54,7 @@ const CartItem = props => (
               >
                 <BsDashSquare color="#52606D" size={12} />
               </button>
-              <p className="cart-quantity">{quantity}</p>
+              <p className="cart-quantity">{qty}</p>
               <button
                 type="button"
                 className="quantity-controller-button"
@@ -50,7 +65,7 @@ const CartItem = props => (
               </button>
             </div>
             <div className="total-price-remove-container">
-              <p className="cart-total-price">Rs {price * quantity}/-</p>
+              <p className="cart-total-price">Rs {price * qty}/-</p>
               <button
                 className="remove-button"
                 type="button"

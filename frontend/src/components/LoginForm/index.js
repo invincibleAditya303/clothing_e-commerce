@@ -36,9 +36,9 @@ class LoginForm extends Component {
   submitForm = async event => {
     event.preventDefault()
     const {email, password, } = this.state
-    const guestCart = localStorage.getItem('cart')
+    const guestCart = localStorage.getItem('cart') || []
     const userDetails = {email, password, guestCart}
-    const url = `${process.env.REACT_APP_API_URL}/login`
+    const url = `${process.env.REACT_APP_API_URL}/api/auth/login`
     const options = {
       method: 'POST',
       body: JSON.stringify(userDetails),

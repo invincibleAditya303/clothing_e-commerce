@@ -126,6 +126,7 @@ class AllProductsSection extends Component {
     let activeCategory = ''
     if (activeSizeId !== '') activeSize = sizesList.filter(size => size.sizeId === activeSizeId)[0].size
     if (activeCategoryId !== '') activeCategory = categoryOptions.filter(category => category.categoryId === activeCategoryId)[0].name
+    console.log(process.env.REACT_APP_API_URL)
     const apiUrl = `${process.env.REACT_APP_API_URL}/api/products?sort_by=${activeOptionId}&category=${activeCategory}&search=${searchInput}&size=${activeSize}`
     const options = {
       headers: {
@@ -134,13 +135,14 @@ class AllProductsSection extends Component {
       method: 'GET',
     }
     const response = await fetch(apiUrl, options)
+    console.log(response)
     if (response.ok) {
       const fetchedData = await response.json()
       const updatedData = fetchedData.map(product => ({
         name: product.name,
         description: product.description,
         price: product.price,
-        id: product._id,
+        _id: product._id,
         imageUrl: product.image,
         sizes: product.sizes,
         stock: product.stock
@@ -196,7 +198,7 @@ class AllProductsSection extends Component {
         />
         <ul className="products-list">
           {productsList.map(product => (
-            <ProductCard productData={product} key={product.id} />
+            <ProductCard productData={product} key={product._id} />
           ))}
         </ul>
       </div>

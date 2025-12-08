@@ -13,9 +13,17 @@ exports.createOrder = async (request, response) => {
     }
 
     for (const it of items) {
-      const prod = await Product.findById(it.product);
+      const prod = await Product.findById(it.product).session(session)
       if (!prod) {
         return res.status(400).json(`Product not found: ${it.product}`)
+      }
+
+      if (typeof it.quantity !== 'number' || it.quantity <= 0 ) {
+        return res.status(400).json(`Invalid quantity for product ${it.product}`)
+      }
+
+      if (prod.stock === null || prod.stock < it.quantity) {
+        return res.status(400).json(`Not enough stock for product ${it.product}`)
       }
     }
 
@@ -27,13 +35,25 @@ exports.createOrder = async (request, response) => {
       status: status || 'pending'
     })
 
-    const saved = await order.save()
+    const saved = await order.save({session})
+
+    for (const it of items) {
+      await Product.updateOne(
+        {_id: it.product},
+        {$inc: {stock: -it.quantity}}
+      ).session(session)
+    }
 
     // Optional: clear cart for user
     await Cart.findOneAndDelete({ user: userId })
 
+    await session.commitTransaction
+    session.endSession()
+
     res.status(201).json(saved)
   } catch (err) {
+    await session.abortTransaction()
+    session.endSession()
     console.error('Error in createOrder:', err)
     response.status(500).json({ message: 'Server error' })
   }
@@ -41,7 +61,7 @@ exports.createOrder = async (request, response) => {
 
 exports.getUserOrders = async (request, response) => {
   try {
-    const userId = req.payload.id
+    const userId = request.payload.id
     const orders = await Order.find({ user: userId }).sort({ createdAt: -1 })
     response.json(orders)
   } catch (err) {
