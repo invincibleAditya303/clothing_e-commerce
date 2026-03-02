@@ -124,7 +124,6 @@ class ProductItemDetails extends Component {
           addCartItem({...productData, qty, size})
         }
 
-        console.log(productData)
         const activeSize = sizes.map(eachSize => eachSize === size ? 'active-size' : '')
 
         return (

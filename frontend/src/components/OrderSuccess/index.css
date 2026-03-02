@@ -1,0 +1,34 @@
+.order-success-container {
+    width: 30vw;
+    height: 30vh;
+    background-color: #eef1e9;
+    display: flex;
+    flex-direction: column;
+    alig-items: center;
+}
+
+.order-success-text {
+    color: #1f1f1f;
+    font-size: 24px;
+    font-family: "Roboto";
+    font-weight: 700;
+}
+
+.odrer-text {
+    color: #1f1f1f;
+    font-size: 18px;
+    font-family: "Roboto";
+}
+
+.order-id-text {
+    color: #1f1f1f;
+    font-size: 22px;
+    font-family: "Roboto";
+    font-weight: 700;
+}
+
+.thankyou-text {
+    color: #1f1f1f;
+    font-size: 18px;
+    font-family: "Roboto";
+}

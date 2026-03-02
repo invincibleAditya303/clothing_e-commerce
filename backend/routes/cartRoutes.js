@@ -10,8 +10,11 @@ router.get('/', authOptional, cartController.getCart)
 // Add to cart
 router.post('/add', authOptional, cartController.addToCart)
 
+// Increase qty of Item
+router.put('/items/increase', authOptional, cartController.increaseItem)
+
 // Decrease qty of Item
-router.put('/items', authOptional, cartController.decreaseItem)
+router.put('/items/decrease', authOptional, cartController.decreaseItem)
 
 //Remove from cart
 router.post('/remove', authOptional, cartController.removeFromCart)

@@ -25,9 +25,7 @@ exports.addToCart = async (request, response) => {
     try {
         const userId = request.payload.id
         
-        const {product, size, qty} = request.body
-        const {_id} = product
-        console.log(request.body)
+        const {_id, size, qty} = request.body
         
         if (request.payload && request.payload.id) {
 
@@ -55,7 +53,7 @@ exports.addToCart = async (request, response) => {
             )
 
             if (itemIndex > -1) {
-                cart.items[itemIndex].qty += qty
+                cart.items[itemIndex].qty += 1
             } else {
                 cart.items.push({
                     product,
@@ -74,10 +72,43 @@ exports.addToCart = async (request, response) => {
     }
 }
 
+exports.increaseItem = async (request, response) => {
+    try {
+        const userId = request.payload.id
+        const {product,qty, size} = request.body
+        const {_id, stock} = product
+        const idObj = new ObjectId(_id)
+
+        const cart = await Cart.findOne({user: userId})
+
+        if (!cart) {
+            return response.status(400).json('Cart not found')
+        }
+
+        const itemIndex = cart.items.findIndex(item => 
+            item.product._id.toString() === _id && item.size === size
+        )
+
+        if (itemIndex > -1) {
+            if (qty < stock) {
+                cart.items[itemIndex].qty += 1
+            } else {
+                return response.status(400).json('Qunatity is more than the available stock')
+            }
+        }
+        await cart.save()
+        const populated = await cart.populate('items.product')
+        response.status(200).json(populated)
+    } catch (error) {
+        console.error('Item decrement error', error)
+        response.status(500).json('Servor error')
+    }
+}
+
 exports.decreaseItem = async (request, response) => {
     try {
         const userId = request.payload.id
-        const {product, qty, size} = request.body
+        const {product,qty, size} = request.body
         const {_id} = product
         const idObj = new ObjectId(_id)
 
@@ -92,12 +123,15 @@ exports.decreaseItem = async (request, response) => {
         )
 
         if (itemIndex > -1) {
-            if (cart.items[itemIndex].qty > 1) {
-                cart.items[itemIndex].qty += qty
+            if (qty > 1) {
+                cart.items[itemIndex].qty -= 1
             } else {
                 cart.items = cart.items.filter(eachItem => !eachItem.product._id.equals(idObj))
             }
         }
+        await cart.save()
+        const populated = await cart.populate('items.product')
+        response.status(200).json(populated)
     } catch (error) {
         console.error('Item decrement error', error)
         response.status(500).json('Servor error')

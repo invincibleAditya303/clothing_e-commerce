@@ -16,15 +16,16 @@ const CartSummary = () => (
         paymentMethod,
         displayMessage,
         onClickOrderButton,
+        onChangePaymentMethod
       } = value
 
-      const jwtToken = Cookies.get('userDetailss')
+      const jwtToken = Cookies.get('userDetails')
 
       let orderAmount
 
       if (jwtToken) {
          orderAmount = cartList.map(
-        eachProduct => eachProduct.product.price * eachProduct.qty,
+          eachProduct => eachProduct.product.price * eachProduct.qty,
         )
       } else {
         orderAmount = cartList.map(
@@ -39,6 +40,9 @@ const CartSummary = () => (
         (accumulator, currentValue) => accumulator + currentValue,
         initialValue,
       )
+
+      const onChangePayment = event => onChangePaymentMethod(event.target.value)
+
 
 
       console.log(totalAmount)
@@ -76,14 +80,73 @@ const CartSummary = () => (
                     <MdClose className="close-icon" />
                   </button>
                   <div className="payment-container">
-                    
+                    <div className="payment-container">
+                      <input
+                        type="radio"
+                        name="payment"
+                        id="card"
+                        value="CARD"
+                        onChange={onChangePayment}
+                      />
+                      <label htmlFor="card" className="payment-label">
+                        Card
+                      </label>
+                    </div>
+                    <div className="payment-container">
+                      <input
+                        type="radio"
+                        name="payment"
+                        id="netBanking"
+                        value="NETBANKING"
+                        onChange={onChangePayment}
+                      />
+                      <label htmlFor="netBanking" className="payment-label">
+                        Net Banking
+                      </label>
+                    </div>
+                    <div className="payment-container">
+                      <input
+                        type="radio"
+                        name="payment"
+                        id="upi"
+                        value="UPI"
+                        onChange={onChangePayment}
+                      />
+                      <label htmlFor="upi" className="payment-label">
+                        UPI
+                      </label>
+                    </div>
+                    <div className="payment-container">
+                      <input
+                        type="radio"
+                        name="payment"
+                        id="wallet"
+                        value="WALLET"
+                        onChange={onChangePayment}
+                      />
+                      <label htmlFor="wallet" className="payment-label">
+                        Wallet
+                      </label>
+                    </div>
+                    <div className="payment-container">
+                      <input
+                        type="radio"
+                        name="payment"
+                        id="cod"
+                        value="COD"
+                        onChange={onChangePayment}
+                      />
+                      <label htmlFor="cod" className="payment-label">
+                        Cash On Delivery
+                      </label>
+                    </div>
                     <div className="order-summary-container">
                       <p className="confirm-order-text">
-                        Total Items:
+                        Total Items:{" "}
                         <span className="order-highlight">{orderQuantity}</span>
                       </p>
                       <p className="confirm-order-text">
-                        Total Amount:
+                        Total Amount:{" "}
                         <span className="order-highlight">{totalAmount}</span>
                       </p>
                     </div>

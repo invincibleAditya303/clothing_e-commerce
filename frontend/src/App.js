@@ -12,6 +12,7 @@ import RegisterForm from './components/RegisterForm'
 class App extends Component {
   state = {
     cartList: [],
+    paymentMethod: '',
     displayMessage: false,
   }
 
@@ -65,7 +66,7 @@ class App extends Component {
         })
       }
     } else {
-      const apiUrl = `${process.env.REACT_APP_API_URL}/api/cart/items`
+      const apiUrl = `${process.env.REACT_APP_API_URL}/api/cart/items/decrease`
       const options = {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
@@ -98,13 +99,13 @@ class App extends Component {
         return { cartList: updatedCart };
       })
     } else {
-      const apiUrl = `${process.env.REACT_APP_API_URL}/api/cart/add`
+      const apiUrl = `${process.env.REACT_APP_API_URL}/api/cart/items/increase`
       const options = {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
           'Content-Type': 'application/json'
         },
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(product)
       }
       const response = await fetch(apiUrl, options)
@@ -169,6 +170,10 @@ class App extends Component {
     }
   }
 
+  onChangePaymentMethod = paymentOption => {
+    this.setState({paymentMethod: paymentOption})
+  }
+
   onClickOrderButton = () => {
     const {paymentMethod} = this.state
     if (paymentMethod === 'COD') {
@@ -198,6 +203,7 @@ class App extends Component {
       })
       
     } else {
+      console.log(product)
       const apiUrl = `${process.env.REACT_APP_API_URL}/api/cart/add`
       const options = {
         headers: {
@@ -229,6 +235,7 @@ class App extends Component {
           incrementCartItemQuantity: this.incrementCartItemQuantity,
           decrementCartItemQuantity: this.decrementCartItemQuantity,
           onClickOrderButton: this.onClickOrderButton,
+          onChangePaymentMethod: this.onChangePaymentMethod
         }}
       >
         <BrowserRouter>
