@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 import Cookies from 'js-cookie'
 
 import AllProducts from './components/AllProducts'
@@ -176,8 +176,14 @@ class App extends Component {
 
   onClickOrderButton = () => {
     const {paymentMethod} = this.state
-    if (paymentMethod === 'COD') {
-      this.setState({displayMessage: true})
+    const jwtToken = Cookies.get('userDetails')
+    if (!jwtToken) {
+      console.log(this.props.history)
+      this.props.history.replace('/login')
+    } else {
+      if (paymentMethod === 'COD') {
+        this.setState({displayMessage: true})
+      }
     }
   }
 
@@ -238,18 +244,16 @@ class App extends Component {
           onChangePaymentMethod: this.onChangePaymentMethod
         }}
       >
-        <BrowserRouter>
-          <Switch>
-            <Route exact path='/' component={AllProducts} />
-            <Route exact path='/products/:id' component={ProductItemDetails} />
-            <Route exact path='/cart' component={Cart} />
-            <Route exact path='/login' component={LoginForm} />
-            <Route exact path='/register' component={RegisterForm} />
-          </Switch>
-        </BrowserRouter>
+        <Switch>
+          <Route exact path='/' component={AllProducts} />
+          <Route exact path='/products/:id' component={ProductItemDetails} />
+          <Route exact path='/cart' component={Cart} />
+          <Route exact path='/login' component={LoginForm} />
+          <Route exact path='/register' component={RegisterForm} />
+        </Switch>
       </CartContext.Provider>
     )
   }
 }
 
-export default App
+export default withRouter(App)

@@ -17,7 +17,7 @@ const CartListView = () => (
         <ul className="cart-list">
           {jwtToken &&
             cartList.length > 0 && cartList.map(eachCartItem => (
-              <CartItem key={eachCartItem.product._id} cartItemDetails={eachCartItem} />
+              <CartItem key={eachCartItem._id} cartItemDetails={eachCartItem} />
             ))
           } 
           {!jwtToken && 
